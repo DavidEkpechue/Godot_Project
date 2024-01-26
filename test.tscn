@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgj1i7cx2vom8"]
+
+[ext_resource type="Script" path="res://Scripts/test.gd" id="1_k7gts"]
+[ext_resource type="PackedScene" uid="uid://i0earkxrvtoj" path="res://Components/fire_component.tscn" id="2_4jlq3"]
+
+[node name="test" type="Node2D"]
+script = ExtResource("1_k7gts")
+
+[node name="FireComponent" parent="." instance=ExtResource("2_4jlq3")]
+
+[node name="Marker2D" type="Marker2D" parent="."]

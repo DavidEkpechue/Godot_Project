@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://di1ocmk06jb2o"]
+
+[ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
+[ext_resource type="Script" path="res://Characters/tower.gd" id="1_muixs"]
+[ext_resource type="Script" path="res://Scripts/fire_component.gd" id="2_g8d21"]
+[ext_resource type="Script" path="res://Characters/HealthComponent.gd" id="3_4oaud"]
+[ext_resource type="Script" path="res://Characters/CoolDownComponent.gd" id="5_ifh60"]
+[ext_resource type="Script" path="res://Characters/EffectsComponent.gd" id="6_foxks"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6eaqf"]
+size = Vector2(58, 58)
+
+[node name="Tower" type="StaticBody2D"]
+position = Vector2(65, 60)
+script = ExtResource("1_muixs")
+
+[node name="Square" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_4vlka")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6eaqf")
+metadata/_edit_lock_ = true
+
+[node name="FiringComponent" type="Node2D" parent="." node_paths=PackedStringArray("spawnpoint")]
+script = ExtResource("2_g8d21")
+spawnpoint = NodePath("../SpawnPoint")
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(47, 0)
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_4oaud")
+MAX_HEALTH = 20.0
+
+[node name="CoolDownComponent" type="Timer" parent="."]
+script = ExtResource("5_ifh60")
+
+[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("6_foxks")
+health_component = NodePath("../HealthComponent")
+
+[connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]

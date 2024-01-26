@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bl4s5mxb44nqo"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_1eto2"]
+[ext_resource type="Texture2D" uid="uid://skqtlfkc1v54" path="res://Assets/Shapes/Triangle.png" id="2_1pdrl"]
+[ext_resource type="PackedScene" uid="uid://7g1xevr0ihdk" path="res://Components/health_component.tscn" id="3_unae2"]
+[ext_resource type="PackedScene" uid="uid://i0earkxrvtoj" path="res://Components/fire_component.tscn" id="4_gyshn"]
+[ext_resource type="PackedScene" uid="uid://dmg37eiydx8j0" path="res://Components/cooldown_component.tscn" id="5_ycd1b"]
+[ext_resource type="PackedScene" uid="uid://dtsnr71ww4ilu" path="res://Components/effects_component.tscn" id="6_rgxa5"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_1eto2")
+
+[node name="Triangle" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.1, 0.12)
+texture = ExtResource("2_1pdrl")
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.1, 0.12)
+polygon = PackedVector2Array(0, -180, 215, 191, -215, 191)
+metadata/_edit_lock_ = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_unae2")]
+metadata/_edit_lock_ = true
+
+[node name="ShootPoint" type="Marker2D" parent="."]
+position = Vector2(34, 0)
+
+[node name="FireComponent" parent="." node_paths=PackedStringArray("spawnpoint") instance=ExtResource("4_gyshn")]
+spawnpoint = NodePath("../ShootPoint")
+
+[node name="CooldownComponent" parent="." instance=ExtResource("5_ycd1b")]
+wait_time = 2.0
+
+[node name="EffectsComponent" parent="." instance=ExtResource("6_rgxa5")]
+
+[connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

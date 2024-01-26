@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/characters/character_with_shader.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/example_with_shader.gd" type="Script" id=2]
+[ext_resource path="res://scenes/characters/color_replacement.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/old_color = Color( 0, 1, 0, 1 )
+shader_param/new_color = Color( 0.541176, 0.345098, 0.184314, 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/old_color = Color( 0, 1, 0, 1 )
+shader_param/new_color = Color( 0.686275, 0.576471, 0.482353, 1 )
+
+[node name="with_shader" type="Node2D"]
+position = Vector2( 120.567, 68.2065 )
+script = ExtResource( 2 )
+
+[node name="character" parent="." instance=ExtResource( 1 )]
+material = SubResource( 2 )
+
+[node name="character2" parent="." instance=ExtResource( 1 )]
+material = SubResource( 3 )
+position = Vector2( -46.1387, -11.3137 )
