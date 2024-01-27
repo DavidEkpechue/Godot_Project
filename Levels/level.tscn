@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6x0u5svbsfiw"]
+[gd_scene load_steps=5 format=3 uid="uid://b6x0u5svbsfiw"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_ayeaj"]
 [ext_resource type="PackedScene" uid="uid://bl4s5mxb44nqo" path="res://Characters/player.tscn" id="2_vf8wj"]
 [ext_resource type="PackedScene" uid="uid://di1ocmk06jb2o" path="res://Characters/tower.tscn" id="3_ivmim"]
+[ext_resource type="PackedScene" uid="uid://bn00lvla0a3eo" path="res://item_test.tscn" id="4_exoni"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ayeaj")
 
 [node name="Player" parent="." instance=ExtResource("2_vf8wj")]
+position = Vector2(129, 148)
 
 [node name="Tower" parent="." instance=ExtResource("3_ivmim")]
 position = Vector2(419, 204)
+
+[node name="item test" parent="." instance=ExtResource("4_exoni")]
+position = Vector2(352, 90)

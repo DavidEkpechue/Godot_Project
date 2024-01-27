@@ -1,9 +1,7 @@
 extends Node
-class_name Effects
+class_name Effect
 
-var fire
-var slow
-var poison
-var blind
-var immobile
-var blank
+var effect_to_apply: String = "blank"
+var effect_intensity: float = 1
+var effect_duration: int = 5
+var effect_seconds_between_tics: float = 1

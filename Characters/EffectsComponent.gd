@@ -2,6 +2,7 @@ extends Node2D
 class_name EffectsComponent
 signal on_fire_signal
 @export var health_component: HealthComponent
+# @export var particle_co
 
 @export var is_on_fire: bool = false
 @export var is_slowed: bool = false
