@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bl4s5mxb44nqo"]
+[gd_scene load_steps=8 format=3 uid="uid://bl4s5mxb44nqo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_1eto2"]
 [ext_resource type="Texture2D" uid="uid://skqtlfkc1v54" path="res://Assets/Shapes/Triangle.png" id="2_1pdrl"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://i0earkxrvtoj" path="res://Components/fire_component.tscn" id="4_gyshn"]
 [ext_resource type="PackedScene" uid="uid://dmg37eiydx8j0" path="res://Components/cooldown_component.tscn" id="5_ycd1b"]
 [ext_resource type="PackedScene" uid="uid://dtsnr71ww4ilu" path="res://Components/effects_component.tscn" id="6_rgxa5"]
+[ext_resource type="Script" path="res://Scripts/PlayerStatsComponent.gd" id="7_kqxyt"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_1eto2")
@@ -34,6 +35,11 @@ spawnpoint = NodePath("../ShootPoint")
 [node name="CooldownComponent" parent="." instance=ExtResource("5_ycd1b")]
 wait_time = 2.0
 
-[node name="EffectsComponent" parent="." instance=ExtResource("6_rgxa5")]
+[node name="EffectsComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_rgxa5")]
+health_component = NodePath("../HealthComponent")
+
+[node name="PlayerStatsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("7_kqxyt")
+health_component = NodePath("../HealthComponent")
 
 [connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

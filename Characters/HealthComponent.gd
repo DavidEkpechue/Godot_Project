@@ -15,19 +15,18 @@ func _ready():
 
 
 func damage(damage_amt):
-	health_changed.emit()
 	health -= damage_amt
+	health_changed.emit(health)
 	
 	if health <= 0:
 		die()
 		
 func heal(heal_amt):
-	health_changed.emit()
 	if health + heal_amt > MAX_HEALTH:
 		health = MAX_HEALTH
 	else:
 		health += heal_amt
-
+	health_changed.emit(health)
 
 func die():
 	health_empty.emit()

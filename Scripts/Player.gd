@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var exp: float
 @export var projectiles_per_shot: int
 @export var power_ups: Array
+
 var can_fire: bool = true
 var player_direction: Vector2
 var effect_array

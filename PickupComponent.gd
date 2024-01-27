@@ -8,6 +8,12 @@ func _ready():
 		pickup_area.connect("body_entered", Callable(self, "_on_body_entered"))
 
 func _on_body_entered(body):
+	var stats = body.get_node_or_null("PlayerStatsComponent")  # Adjust the node path as necessary
+
+	
+	if stats:
+		stats.add_coins(2)
+			
 	if get_parent():  # Check if the PickupComponent has a parent before trying to delete it
 		print('picked up: ', get_parent().name)
 		get_parent().queue_free()  # This will free the parent node, which includes this PickupComponent
