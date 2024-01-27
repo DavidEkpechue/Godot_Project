@@ -13,7 +13,19 @@ extends CharacterBody2D
 @export var power_ups: Array
 var can_fire: bool = true
 var player_direction: Vector2
+var effect_array
 var effect_to_apply: String = "fire"
+var effect_intensity: float = 1
+var effect_duration: int = 5
+var effect_seconds_between_tics: float = 1
+
+func set_effect():
+	effect_array = []  # Clear the array or reinitialize it
+	effect_array.append(effect_to_apply)
+	effect_array.append(effect_intensity)
+	effect_array.append(effect_duration)
+	effect_array.append(effect_seconds_between_tics)
+
 
 func _ready():
 	$Triangle.modulate = Color.SKY_BLUE
@@ -26,7 +38,8 @@ func handle_direction():
 func handle_main_action():
 	if Input.is_action_just_pressed("MainAction") and can_fire:
 		print('shoot')
-		fire_component.fire_projectile(player_direction, base_damage, effect_to_apply)
+		set_effect()
+		fire_component.fire_projectile(player_direction, base_damage, effect_array)
 		$CooldownComponent.start()
 		can_fire = false
 

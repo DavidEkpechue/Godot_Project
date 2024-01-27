@@ -14,5 +14,5 @@ func fire_projectile(direction, damage, effect):
 	projectile.rotation = direction.angle()
 	projectile.direction = direction	# Set the direction for the projectile script
 	projectile.damage = damage
-	projectile.effect = effect	
+	projectile.effect_array = effect	
 	get_tree().current_scene.add_child(projectile)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://km1d5bj671il"]
+
+[ext_resource type="Script" path="res://Characters/CoolDownComponent.gd" id="1_5l5ci"]
+
+[node name="CoolDownComponent" type="Timer"]
+script = ExtResource("1_5l5ci")

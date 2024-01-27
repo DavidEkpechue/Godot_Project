@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Characters/tower.gd" id="1_muixs"]
 [ext_resource type="Script" path="res://Scripts/fire_component.gd" id="2_g8d21"]
 [ext_resource type="Script" path="res://Characters/HealthComponent.gd" id="3_4oaud"]
-[ext_resource type="Script" path="res://Characters/CoolDownComponent.gd" id="5_ifh60"]
+[ext_resource type="PackedScene" uid="uid://km1d5bj671il" path="res://Components/cool_down_component.tscn" id="5_xoheo"]
 [ext_resource type="Script" path="res://Characters/EffectsComponent.gd" id="6_foxks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6eaqf"]
@@ -34,8 +34,7 @@ position = Vector2(47, 0)
 script = ExtResource("3_4oaud")
 MAX_HEALTH = 20.0
 
-[node name="CoolDownComponent" type="Timer" parent="."]
-script = ExtResource("5_ifh60")
+[node name="CoolDownComponent" parent="." instance=ExtResource("5_xoheo")]
 
 [node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
 script = ExtResource("6_foxks")
