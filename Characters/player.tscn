@@ -46,4 +46,6 @@ health_component = NodePath("../HealthComponent")
 
 [node name="FireParticle" parent="." instance=ExtResource("8_ihmxm")]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

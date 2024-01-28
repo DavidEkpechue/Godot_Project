@@ -15,7 +15,7 @@ extends CharacterBody2D
 var can_fire: bool = true
 var player_direction: Vector2
 var effect_array
-var effect_to_apply: String = "blank"
+var effect_to_apply: String = "fire"
 var effect_intensity: float = 1
 var effect_duration: int = 5
 var effect_seconds_between_tics: float = 1

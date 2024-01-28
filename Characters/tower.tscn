@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://di1ocmk06jb2o"]
+[gd_scene load_steps=9 format=3 uid="uid://di1ocmk06jb2o"]
 
 [ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
 [ext_resource type="Script" path="res://Characters/tower.gd" id="1_muixs"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Characters/HealthComponent.gd" id="3_4oaud"]
 [ext_resource type="PackedScene" uid="uid://km1d5bj671il" path="res://Components/cool_down_component.tscn" id="5_xoheo"]
 [ext_resource type="Script" path="res://Characters/EffectsComponent.gd" id="6_foxks"]
+[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://FireParticle.tscn" id="7_m7tp0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6eaqf"]
 size = Vector2(58, 58)
@@ -36,8 +37,11 @@ MAX_HEALTH = 20.0
 
 [node name="CoolDownComponent" parent="." instance=ExtResource("5_xoheo")]
 
-[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
+[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "fire_particle")]
 script = ExtResource("6_foxks")
 health_component = NodePath("../HealthComponent")
+fire_particle = NodePath("../FireParticle")
+
+[node name="FireParticle" parent="." instance=ExtResource("7_m7tp0")]
 
 [connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]

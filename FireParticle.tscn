@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://q8d02kfqh57c"]
 
 [sub_resource type="Gradient" id="Gradient_h01rf"]
-colors = PackedColorArray(0.556863, 0.12549, 0, 1, 0.933333, 0.580392, 0, 1)
+colors = PackedColorArray(0.336208, 0.0604005, 0, 1, 1, 0.265847, 0.133894, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kjytl"]
 gradient = SubResource("Gradient_h01rf")
@@ -45,11 +45,13 @@ scale_curve = SubResource("CurveTexture_t52hn")
 color_ramp = SubResource("GradientTexture1D_jpki7")
 
 [node name="FireParticle" type="GPUParticles2D"]
+self_modulate = Color(1.75, 1.75, 1.75, 1)
+scale = Vector2(1.75, 1.75)
 emitting = false
-amount = 265
+amount = 700
 process_material = SubResource("ParticleProcessMaterial_jwywv")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 265
+amount = 700
 process_material = SubResource("ParticleProcessMaterial_inm5i")

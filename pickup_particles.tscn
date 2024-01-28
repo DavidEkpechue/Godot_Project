@@ -28,7 +28,7 @@ scale_curve = SubResource("CurveTexture_1wj84")
 color_ramp = SubResource("GradientTexture1D_12e5r")
 
 [node name="PickupParticles" type="GPUParticles2D"]
-self_modulate = Color(0.996078, 0.984314, 0.427451, 1)
+self_modulate = Color(32.1216, 0.984314, 0, 1)
 emitting = false
 amount = 100
 process_material = SubResource("ParticleProcessMaterial_piejc")
