@@ -8,9 +8,9 @@ class_name PickupComponent
 func _ready():
 	if pickup_area:
 		pickup_area.connect("body_entered", Callable(self, "_on_body_entered"))
-		
 
-func play_particle():
+
+func play_disappear_particle():
 	pickup_efect.emitting = true
 	sprite.visible = false
 		
@@ -22,7 +22,7 @@ func _on_body_entered(body):
 	if body.has_node("PlayerStatsComponent"):
 		var stats = body.get_node("PlayerStatsComponent")
 		stats.add_coins(2)  # Add coins to the player stats
-		play_particle()  # Call the function to play the particle effect
+		play_disappear_particle()  # Call the function to play the particle effect
 		
 	else:
 		# If the body is not the player, just queue the node for deletion
