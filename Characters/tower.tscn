@@ -1,21 +1,68 @@
-[gd_scene load_steps=9 format=3 uid="uid://di1ocmk06jb2o"]
+[gd_scene load_steps=17 format=3 uid="uid://di1ocmk06jb2o"]
 
 [ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
-[ext_resource type="Script" path="res://Characters/tower.gd" id="1_muixs"]
+[ext_resource type="Script" path="res://Scripts/tower.gd" id="1_muixs"]
 [ext_resource type="Script" path="res://Scripts/fire_component.gd" id="2_g8d21"]
-[ext_resource type="Script" path="res://Characters/HealthComponent.gd" id="3_4oaud"]
+[ext_resource type="Shader" uid="uid://clwwjd1crqugg" path="res://Assets/Shaders/TowerHitFlash.tres" id="2_hlvnt"]
+[ext_resource type="Script" path="res://Scripts/HealthComponent.gd" id="3_4oaud"]
 [ext_resource type="PackedScene" uid="uid://km1d5bj671il" path="res://Components/cool_down_component.tscn" id="5_xoheo"]
-[ext_resource type="Script" path="res://Characters/EffectsComponent.gd" id="6_foxks"]
-[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://FireParticle.tscn" id="7_m7tp0"]
+[ext_resource type="Script" path="res://Scripts/EffectsComponent.gd" id="6_foxks"]
+[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://Assets/Particles/FireParticle.tscn" id="7_m7tp0"]
+[ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="8_hfs1t"]
+[ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_wkq3t"]
+[ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="11_ma8yo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fgf4g"]
+shader = ExtResource("2_hlvnt")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6eaqf"]
 size = Vector2(58, 58)
+
+[sub_resource type="Animation" id="Animation_4ird8"]
+resource_name = "HitFlash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Square:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_1gbf1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Square:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvamo"]
+_data = {
+"HitFlash": SubResource("Animation_4ird8"),
+"RESET": SubResource("Animation_1gbf1")
+}
 
 [node name="Tower" type="StaticBody2D"]
 position = Vector2(65, 60)
 script = ExtResource("1_muixs")
 
 [node name="Square" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fgf4g")
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("1_4vlka")
 metadata/_edit_lock_ = true
@@ -31,17 +78,35 @@ spawnpoint = NodePath("../SpawnPoint")
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(47, 0)
 
-[node name="HealthComponent" type="Node2D" parent="."]
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_numbers_origin")]
 script = ExtResource("3_4oaud")
-MAX_HEALTH = 20.0
+MAX_HEALTH = 200.0
+damage_numbers_origin = NodePath("../DamageNumbersOrigin")
 
 [node name="CoolDownComponent" parent="." instance=ExtResource("5_xoheo")]
+wait_time = 0.2
 
-[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "fire_particle")]
+[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "fire_particle", "poisoned_particle")]
 script = ExtResource("6_foxks")
 health_component = NodePath("../HealthComponent")
 fire_particle = NodePath("../FireParticle")
+poisoned_particle = NodePath("../PoisonParticle")
 
 [node name="FireParticle" parent="." instance=ExtResource("7_m7tp0")]
+
+[node name="PoisonParticle" parent="." instance=ExtResource("8_hfs1t")]
+
+[node name="HitflashComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "hitflash_animation")]
+script = ExtResource("9_wkq3t")
+health_component = NodePath("../HealthComponent")
+hitflash_animation = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lvamo")
+}
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+script = ExtResource("11_ma8yo")
 
 [connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]

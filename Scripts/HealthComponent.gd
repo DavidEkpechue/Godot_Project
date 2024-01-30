@@ -2,9 +2,10 @@ extends Node2D
 class_name HealthComponent
 
 @export var MAX_HEALTH: float = 100
-
+@export var damage_numbers_origin: DamageNumbersOrigin
 @export var health: float
 
+var dmg_pos = self.position + Vector2(0, 10)
 
 signal health_empty
 signal health_changed
@@ -15,8 +16,10 @@ func _ready():
 
 
 func damage(damage_amt):
+	var is_critical = false
 	health -= damage_amt
 	health_changed.emit(health)
+	DamageNumbers.display_number(damage_amt, damage_numbers_origin.global_position, is_critical)
 	
 	if health <= 0:
 		die()

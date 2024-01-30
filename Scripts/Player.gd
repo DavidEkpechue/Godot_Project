@@ -13,9 +13,10 @@ extends CharacterBody2D
 @export var power_ups: Array
 
 var can_fire: bool = true
+var can_dash: bool = true
 var player_direction: Vector2
 var effect_array
-var effect_to_apply: String = "fire"
+var effect_to_apply: String = "poison"
 var effect_intensity: float = 1
 var effect_duration: int = 5
 var effect_seconds_between_tics: float = 1

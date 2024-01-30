@@ -1,30 +1,51 @@
-[gd_scene load_steps=9 format=3 uid="uid://bl4s5mxb44nqo"]
+[gd_scene load_steps=16 format=3 uid="uid://bl4s5mxb44nqo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_1eto2"]
+[ext_resource type="Shader" uid="uid://ihgethprt4kt" path="res://Assets/Shaders/PlayerHitFlash.tres" id="1_ltgjy"]
 [ext_resource type="Texture2D" uid="uid://skqtlfkc1v54" path="res://Assets/Shapes/Triangle.png" id="2_1pdrl"]
 [ext_resource type="PackedScene" uid="uid://7g1xevr0ihdk" path="res://Components/health_component.tscn" id="3_unae2"]
 [ext_resource type="PackedScene" uid="uid://i0earkxrvtoj" path="res://Components/fire_component.tscn" id="4_gyshn"]
 [ext_resource type="PackedScene" uid="uid://dmg37eiydx8j0" path="res://Components/cooldown_component.tscn" id="5_ycd1b"]
 [ext_resource type="PackedScene" uid="uid://dtsnr71ww4ilu" path="res://Components/effects_component.tscn" id="6_rgxa5"]
-[ext_resource type="Script" path="res://Scripts/PlayerStatsComponent.gd" id="7_kqxyt"]
-[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://FireParticle.tscn" id="8_ihmxm"]
+[ext_resource type="Script" path="res://Scripts/StatsComponent.gd" id="7_kqxyt"]
+[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://Assets/Particles/FireParticle.tscn" id="8_ihmxm"]
+[ext_resource type="PackedScene" uid="uid://5r0m7qwcjde1" path="res://Components/hit_flash_animation_player.tscn" id="10_1hy3r"]
+[ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="11_hn6tb"]
+[ext_resource type="PackedScene" uid="uid://c8wdpag8kd6x4" path="res://Components/health_bar.tscn" id="12_8n3ui"]
+[ext_resource type="PackedScene" uid="uid://c3eqqyoy4rwg2" path="res://Components/damage_numbers_origin.tscn" id="13_nnxjp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o77ak"]
+shader = ExtResource("1_ltgjy")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxatu"]
+resource_local_to_scene = true
+shader = ExtResource("1_ltgjy")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 0, 0, 1)
 
 [node name="Player" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_o77ak")
 script = ExtResource("1_1eto2")
 
 [node name="Triangle" type="Sprite2D" parent="."]
+self_modulate = Color(0.690196, 1, 1, 1)
+material = SubResource("ShaderMaterial_qxatu")
 rotation = 1.5708
 scale = Vector2(0.1, 0.12)
 texture = ExtResource("2_1pdrl")
 metadata/_edit_lock_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 rotation = 1.5708
 scale = Vector2(0.1, 0.12)
 polygon = PackedVector2Array(0, -180, 215, 191, -215, 191)
 metadata/_edit_lock_ = true
 
-[node name="HealthComponent" parent="." instance=ExtResource("3_unae2")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_origin") instance=ExtResource("3_unae2")]
+damage_numbers_origin = NodePath("../DamageNumbersOrigin")
 metadata/_edit_lock_ = true
 
 [node name="ShootPoint" type="Marker2D" parent="."]
@@ -40,12 +61,36 @@ wait_time = 2.0
 health_component = NodePath("../HealthComponent")
 fire_particle = NodePath("../FireParticle")
 
-[node name="PlayerStatsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
+[node name="StatsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
 script = ExtResource("7_kqxyt")
 health_component = NodePath("../HealthComponent")
 
 [node name="FireParticle" parent="." instance=ExtResource("8_ihmxm")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HitflashComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "hitflash_animation")]
+script = ExtResource("11_hn6tb")
+health_component = NodePath("../HealthComponent")
+hitflash_animation = NodePath("../HitFlashAnimationPlayer")
+
+[node name="HitFlashAnimationPlayer" parent="." instance=ExtResource("10_1hy3r")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="CanvasLayer" node_paths=PackedStringArray("health_component") instance=ExtResource("12_8n3ui")]
+anchors_preset = -1
+anchor_left = 0.004
+anchor_top = 0.98
+anchor_right = 0.379
+anchor_bottom = 0.988
+offset_left = 3.392
+offset_top = -0.0400391
+offset_right = 0.391998
+offset_bottom = -0.223999
+value = 100.0
+health_component = NodePath("../../HealthComponent")
+
+[node name="DamageNumbersOrigin" parent="." instance=ExtResource("13_nnxjp")]
 
 [connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

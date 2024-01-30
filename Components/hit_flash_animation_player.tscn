@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://5r0m7qwcjde1"]
+
+[ext_resource type="Script" path="res://Scripts/hit_flash_animation_player.gd" id="1_al1rb"]
+
+[sub_resource type="Animation" id="Animation_ebx1t"]
+resource_name = "HitFlash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Triangle:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_g1b48"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Triangle:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jkpm0"]
+_data = {
+"HitFlash": SubResource("Animation_ebx1t"),
+"RESET": SubResource("Animation_g1b48")
+}
+
+[node name="HitFlashAnimationPlayer" type="AnimationPlayer"]
+libraries = {
+"": SubResource("AnimationLibrary_jkpm0")
+}
+script = ExtResource("1_al1rb")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://q8d02kfqh57c"]
+[gd_scene load_steps=11 format=3 uid="uid://q8d02kfqh57c"]
 
 [sub_resource type="Gradient" id="Gradient_h01rf"]
 colors = PackedColorArray(0.336208, 0.0604005, 0, 1, 1, 0.265847, 0.133894, 1)
@@ -6,12 +6,12 @@ colors = PackedColorArray(0.336208, 0.0604005, 0, 1, 1, 0.265847, 0.133894, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kjytl"]
 gradient = SubResource("Gradient_h01rf")
 
-[sub_resource type="Curve" id="Curve_p4w21"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.223529, 1), 0.0, 0.0, 0, 0, Vector2(0.776471, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_fgyu0"]
+_data = [Vector2(0, 0.516483), 0.0, 0.0, 0, 0, Vector2(0.223529, 1), 0.0, 0.0, 0, 0, Vector2(0.776471, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_t52hn"]
-curve = SubResource("Curve_p4w21")
+curve = SubResource("Curve_fgyu0")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jwywv"]
 particle_flag_disable_z = true
@@ -29,8 +29,15 @@ color_ramp = SubResource("GradientTexture1D_kjytl")
 offsets = PackedFloat32Array(0.0147059, 1)
 colors = PackedColorArray(0.564706, 0.137255, 0, 1, 0.952941, 0.796078, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_jpki7"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xltav"]
 gradient = SubResource("Gradient_pj0k0")
+
+[sub_resource type="Curve" id="Curve_p4w21"]
+_data = [Vector2(0, 0.659341), 0.0, 0.0, 0, 0, Vector2(0.223529, 1), 0.0, 0.0, 0, 0, Vector2(0.776471, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_hgxn2"]
+curve = SubResource("Curve_p4w21")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_inm5i"]
 particle_flag_disable_z = true
@@ -41,10 +48,11 @@ gravity = Vector3(0, -98, 0)
 radial_accel_min = -20.0
 scale_min = 3.0
 scale_max = 3.0
-scale_curve = SubResource("CurveTexture_t52hn")
-color_ramp = SubResource("GradientTexture1D_jpki7")
+scale_curve = SubResource("CurveTexture_hgxn2")
+color_ramp = SubResource("GradientTexture1D_xltav")
 
 [node name="FireParticle" type="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0.4)
 self_modulate = Color(1.75, 1.75, 1.75, 1)
 scale = Vector2(1.75, 1.75)
 emitting = false

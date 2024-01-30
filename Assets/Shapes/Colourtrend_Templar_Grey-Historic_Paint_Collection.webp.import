@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bav51hhuprm3u"
-path="res://.godot/imported/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp-df4567956845dc9f54cadcc5922d3134.ctex"
+path="res://.godot/imported/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp-816f98f0408cd092230056a6e9e5784a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp"
-dest_files=["res://.godot/imported/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp-df4567956845dc9f54cadcc5922d3134.ctex"]
+source_file="res://Assets/Shapes/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp"
+dest_files=["res://.godot/imported/Colourtrend_Templar_Grey-Historic_Paint_Collection.webp-816f98f0408cd092230056a6e9e5784a.ctex"]
 
 [params]
 

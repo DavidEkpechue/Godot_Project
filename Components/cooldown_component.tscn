@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmg37eiydx8j0"]
 
-[ext_resource type="Script" path="res://Characters/CoolDownComponent.gd" id="1_8r31s"]
+[ext_resource type="Script" path="res://Scripts/CoolDownComponent.gd" id="1_8r31s"]
 
 [node name="CooldownComponent" type="Timer"]
 script = ExtResource("1_8r31s")

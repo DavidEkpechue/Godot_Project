@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dke6llsv64tk4"]
 
-[ext_resource type="Script" path="res://PickupComponent.gd" id="1_xww16"]
+[ext_resource type="Script" path="res://Scripts/PickupComponent.gd" id="1_xww16"]
 
 [node name="PickupComponent" type="Node2D"]
 script = ExtResource("1_xww16")

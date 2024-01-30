@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3eqqyoy4rwg2"]
+
+[ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="1_7pc8h"]
+
+[node name="DamageNumbersOrigin" type="Node2D"]
+position = Vector2(11, -26)
+script = ExtResource("1_7pc8h")
