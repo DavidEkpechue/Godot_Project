@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://di1ocmk06jb2o"]
+[gd_scene load_steps=18 format=3 uid="uid://di1ocmk06jb2o"]
 
 [ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
 [ext_resource type="Script" path="res://Scripts/tower.gd" id="1_muixs"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="8_hfs1t"]
 [ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_wkq3t"]
 [ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="11_ma8yo"]
+[ext_resource type="PackedScene" uid="uid://ca4bmds15bh1f" path="res://Assets/Particles/shooting_particles.tscn" id="12_jxyk4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fgf4g"]
 shader = ExtResource("2_hlvnt")
@@ -71,35 +72,42 @@ metadata/_edit_lock_ = true
 shape = SubResource("RectangleShape2D_6eaqf")
 metadata/_edit_lock_ = true
 
-[node name="FiringComponent" type="Node2D" parent="." node_paths=PackedStringArray("spawnpoint")]
+[node name="FiringComponent" type="Node2D" parent="." node_paths=PackedStringArray("spawnpoint", "particles")]
 script = ExtResource("2_g8d21")
 spawnpoint = NodePath("../SpawnPoint")
+particles = NodePath("../ShootingParticles")
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(47, 0)
+metadata/_edit_lock_ = true
 
 [node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_numbers_origin")]
 script = ExtResource("3_4oaud")
 MAX_HEALTH = 200.0
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+metadata/_edit_lock_ = true
 
 [node name="CoolDownComponent" parent="." instance=ExtResource("5_xoheo")]
-wait_time = 0.2
+wait_time = 0.5
 
 [node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "fire_particle", "poisoned_particle")]
 script = ExtResource("6_foxks")
 health_component = NodePath("../HealthComponent")
 fire_particle = NodePath("../FireParticle")
 poisoned_particle = NodePath("../PoisonParticle")
+metadata/_edit_lock_ = true
 
 [node name="FireParticle" parent="." instance=ExtResource("7_m7tp0")]
+metadata/_edit_lock_ = true
 
 [node name="PoisonParticle" parent="." instance=ExtResource("8_hfs1t")]
+metadata/_edit_lock_ = true
 
 [node name="HitflashComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "hitflash_animation")]
 script = ExtResource("9_wkq3t")
 health_component = NodePath("../HealthComponent")
 hitflash_animation = NodePath("../AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -108,5 +116,9 @@ libraries = {
 
 [node name="DamageNumbersOrigin" type="Node2D" parent="."]
 script = ExtResource("11_ma8yo")
+metadata/_edit_lock_ = true
+
+[node name="ShootingParticles" parent="." instance=ExtResource("12_jxyk4")]
+metadata/_edit_lock_ = true
 
 [connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]

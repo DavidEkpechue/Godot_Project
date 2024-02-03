@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bl4s5mxb44nqo"]
+[gd_scene load_steps=20 format=3 uid="uid://bl4s5mxb44nqo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_1eto2"]
 [ext_resource type="Shader" uid="uid://ihgethprt4kt" path="res://Assets/Shaders/PlayerHitFlash.tres" id="1_ltgjy"]
@@ -13,6 +13,10 @@
 [ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="11_hn6tb"]
 [ext_resource type="PackedScene" uid="uid://c8wdpag8kd6x4" path="res://Components/health_bar.tscn" id="12_8n3ui"]
 [ext_resource type="PackedScene" uid="uid://c3eqqyoy4rwg2" path="res://Components/damage_numbers_origin.tscn" id="13_nnxjp"]
+[ext_resource type="PackedScene" uid="uid://ca4bmds15bh1f" path="res://Assets/Particles/shooting_particles.tscn" id="14_wgyld"]
+[ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="15_qbqtf"]
+[ext_resource type="Script" path="res://DashComponent.gd" id="16_5ydb5"]
+[ext_resource type="PackedScene" uid="uid://dumy24kjo3emi" path="res://Assets/Particles/dashing_particles.tscn" id="17_7weab"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o77ak"]
 shader = ExtResource("1_ltgjy")
@@ -25,9 +29,13 @@ shader = ExtResource("1_ltgjy")
 shader_parameter/Enabled = false
 shader_parameter/Tint = Color(1, 0, 0, 1)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("health_component", "shoot_point", "fire_component", "dash_component")]
 material = SubResource("ShaderMaterial_o77ak")
 script = ExtResource("1_1eto2")
+health_component = NodePath("HealthComponent")
+shoot_point = NodePath("ShootPoint")
+fire_component = NodePath("FireComponent")
+dash_component = NodePath("DashComponent")
 
 [node name="Triangle" type="Sprite2D" parent="."]
 self_modulate = Color(0.690196, 1, 1, 1)
@@ -37,42 +45,63 @@ scale = Vector2(0.1, 0.12)
 texture = ExtResource("2_1pdrl")
 metadata/_edit_lock_ = true
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 rotation = 1.5708
 scale = Vector2(0.1, 0.12)
 polygon = PackedVector2Array(0, -180, 215, 191, -215, 191)
 metadata/_edit_lock_ = true
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_origin") instance=ExtResource("3_unae2")]
-damage_numbers_origin = NodePath("../DamageNumbersOrigin")
-metadata/_edit_lock_ = true
-
 [node name="ShootPoint" type="Marker2D" parent="."]
 position = Vector2(34, 0)
 
-[node name="FireComponent" parent="." node_paths=PackedStringArray("spawnpoint") instance=ExtResource("4_gyshn")]
+[node name="FireParticle" parent="." instance=ExtResource("8_ihmxm")]
+
+[node name="ShootingParticles" parent="." instance=ExtResource("14_wgyld")]
+
+[node name="PoisonParticle" parent="." instance=ExtResource("15_qbqtf")]
+scale = Vector2(3.0625, 3.0625)
+
+[node name="DashingParticles" parent="." instance=ExtResource("17_7weab")]
+position = Vector2(-31, 1)
+rotation = -3.13607
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_origin") instance=ExtResource("3_unae2")]
+MAX_HEALTH = 4000.0
+damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+metadata/_edit_lock_ = true
+
+[node name="FireComponent" parent="." node_paths=PackedStringArray("spawnpoint", "particles") instance=ExtResource("4_gyshn")]
 spawnpoint = NodePath("../ShootPoint")
+particles = NodePath("../ShootingParticles")
 
-[node name="CooldownComponent" parent="." instance=ExtResource("5_ycd1b")]
-wait_time = 2.0
-
-[node name="EffectsComponent" parent="." node_paths=PackedStringArray("health_component", "fire_particle") instance=ExtResource("6_rgxa5")]
+[node name="EffectsComponent" parent="." node_paths=PackedStringArray("health_component", "fire_particle", "poisoned_particle") instance=ExtResource("6_rgxa5")]
 health_component = NodePath("../HealthComponent")
 fire_particle = NodePath("../FireParticle")
+poisoned_particle = NodePath("../PoisonParticle")
 
 [node name="StatsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
 script = ExtResource("7_kqxyt")
 health_component = NodePath("../HealthComponent")
 
-[node name="FireParticle" parent="." instance=ExtResource("8_ihmxm")]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="HitflashComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "hitflash_animation")]
 script = ExtResource("11_hn6tb")
 health_component = NodePath("../HealthComponent")
 hitflash_animation = NodePath("../HitFlashAnimationPlayer")
+
+[node name="DamageNumbersOrigin" parent="." instance=ExtResource("13_nnxjp")]
+
+[node name="DashComponent" type="Node" parent="." node_paths=PackedStringArray("dash_effect")]
+script = ExtResource("16_5ydb5")
+dash_duration = 0.2
+dash_cooldown = 0.1
+dash_effect = NodePath("../DashingParticles")
+
+[node name="CooldownComponent" parent="." instance=ExtResource("5_ycd1b")]
+wait_time = 0.5
+
+[node name="Timer" type="Timer" parent="."]
 
 [node name="HitFlashAnimationPlayer" parent="." instance=ExtResource("10_1hy3r")]
 
@@ -91,6 +120,5 @@ offset_bottom = -0.223999
 value = 100.0
 health_component = NodePath("../../HealthComponent")
 
-[node name="DamageNumbersOrigin" parent="." instance=ExtResource("13_nnxjp")]
-
+[connection signal="dash_cooldown_complete" from="DashComponent" to="." method="_on_dash_cooldown_complete"]
 [connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

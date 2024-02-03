@@ -3,7 +3,8 @@ extends StaticBody2D
 @export var can_shoot: bool = true
 @export var shoot_direction: Vector2 = Vector2.RIGHT
 @export var damage_multiplier: float
-@export var base_damage: float = 5
+@export var base_damage: float
+
 var fire_component
 var effect_array
 var effect_to_apply: String = "fire"

@@ -35,6 +35,7 @@ position = Vector2(129, 148)
 
 [node name="Tower" parent="." instance=ExtResource("3_ivmim")]
 position = Vector2(419, 204)
+base_damage = 60.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kfh5q")

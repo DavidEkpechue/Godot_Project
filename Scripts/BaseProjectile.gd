@@ -4,8 +4,9 @@ extends Area2D
 var direction: Vector2 = Vector2.UP
 var damage: float
 var effect_array
+@onready var timer = $Timer
 func _ready():
-	$SelfDestructTimer.start()
+	timer.start()
 
 func _process(delta):
 	position += direction * speed * delta
@@ -25,5 +26,5 @@ func _on_body_entered(body):
 
 
 
-func _on_self_destruct_timer_timeout():
-	queue_free()
+func _on_timer_timeout():
+	queue_free() # Replace with function body.

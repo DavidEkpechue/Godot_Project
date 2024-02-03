@@ -5,6 +5,7 @@ class_name PickupComponent
 @export var pickup_efect: GPUParticles2D
 @export var sprite: Sprite2D
 @export var stat_change: String
+@export var stat_amt: float
 
 func _ready():
 	if pickup_area:
@@ -23,7 +24,7 @@ func _on_body_entered(body):
 	print(stat_change)
 	if body.name == "Player":
 		var stats = body.get_node("StatsComponent")
-		stats.change_stat(stat_change)  # Add coins to the player stats
+		stats.change_stat(stat_change, stat_amt)  # Add coins to the player stats
 		play_disappear_particle()  # Call the function to play the particle effect
 		
 	else:

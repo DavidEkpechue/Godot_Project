@@ -10,6 +10,10 @@ extends ProgressBar
 func _ready():
 	if health_component:
 		health_component.connect("health_changed", Callable(self, "_set_healthbar"))
+		value = health_component.MAX_HEALTH
+		dmg_bar.value = health_component.MAX_HEALTH
+		max_value = health_component.MAX_HEALTH
+		dmg_bar.max_value = health_component.MAX_HEALTH
 		
 func _set_healthbar(new_health):
 	# Update the ProgressBar to reflect the new health
@@ -27,7 +31,7 @@ func _set_healthbar(new_health):
 
 	var prev_health = health
 	health = min(max_value, new_health)
-	value = health
+	value = health 
 	
 	if health <= 0:
 		queue_free()
@@ -36,7 +40,6 @@ func _set_healthbar(new_health):
 		timer.start()
 	else:
 		dmg_bar.value = health
-	
 
 func _on_timer_timeout():
 	var tween = get_tree().create_tween()

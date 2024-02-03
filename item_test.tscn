@@ -18,7 +18,8 @@ script = ExtResource("2_6y3ll")
 pickup_area = NodePath("../Area2D")
 pickup_efect = NodePath("../PickupParticles")
 sprite = NodePath("../Diamond")
-stat_change = "coins"
+stat_change = "health"
+stat_amt = 3000.0
 
 [node name="Area2D" type="Area2D" parent="."]
 

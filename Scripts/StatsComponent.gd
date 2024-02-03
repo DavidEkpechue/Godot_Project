@@ -21,8 +21,10 @@ func update_health(health_amt):
 	health = health_amt
 	print(health)
 
-func change_stat(stat_change):
+func change_stat(stat_change, stat_amt):
 	print("changing stat", stat_change)
 	match stat_change:
 		"coins":
-			add_coins(1)
+			add_coins(stat_amt)
+		"health":
+			health_component.heal(stat_amt)

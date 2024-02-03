@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dumy24kjo3emi"]
+
+[sub_resource type="Curve" id="Curve_0srm6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.822917, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_d74q6"]
+curve = SubResource("Curve_0srm6")
+
+[sub_resource type="Gradient" id="Gradient_44pka"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i3rtf"]
+gradient = SubResource("Gradient_44pka")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xv2uw"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_i3rtf")
+alpha_curve = SubResource("CurveTexture_d74q6")
+
+[node name="DashingParticles" type="GPUParticles2D"]
+self_modulate = Color(0.439216, 0.815686, 0.686275, 1)
+emitting = false
+amount = 2000
+process_material = SubResource("ParticleProcessMaterial_xv2uw")
+explosiveness = 0.25
