@@ -1,0 +1,119 @@
+[gd_scene load_steps=17 format=3 uid="uid://dhghba2p4eofv"]
+
+[ext_resource type="Script" path="res://Characters/enemy_1.gd" id="1_m44q7"]
+[ext_resource type="Texture2D" uid="uid://ba0up5svu7fbh" path="res://Assets/Shapes/Circle.png" id="1_tk8w7"]
+[ext_resource type="Shader" uid="uid://ihgethprt4kt" path="res://Assets/Shaders/PlayerHitFlash.tres" id="1_vni1t"]
+[ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://Assets/Particles/FireParticle.tscn" id="2_urps3"]
+[ext_resource type="Script" path="res://Scripts/HealthComponent.gd" id="3_n060g"]
+[ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="4_jsmv8"]
+[ext_resource type="Script" path="res://Scripts/EffectsComponent.gd" id="6_sauy3"]
+[ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="7_hejqi"]
+[ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_10jeg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5ay"]
+shader = ExtResource("1_vni1t")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nx0jv"]
+radius = 23.7697
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5ooc"]
+shader = ExtResource("1_vni1t")
+shader_parameter/Enabled = false
+shader_parameter/Tint = Color(1, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rglut"]
+radius = 557.359
+
+[sub_resource type="Animation" id="Animation_j7wgk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Circle:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_6afas"]
+resource_name = "Hitflash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Circle:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2nsow"]
+_data = {
+"HitFlash": SubResource("Animation_6afas"),
+"RESET": SubResource("Animation_j7wgk")
+}
+
+[node name="Enemy1" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_8d5ay")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_m44q7")
+
+[node name="FireParticle" parent="." instance=ExtResource("2_urps3")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nx0jv")
+metadata/_edit_lock_ = true
+
+[node name="Circle" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_u5ooc")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_tk8w7")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
+shape = SubResource("CircleShape2D_rglut")
+metadata/_edit_lock_ = true
+
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_numbers_origin")]
+script = ExtResource("3_n060g")
+damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+script = ExtResource("4_jsmv8")
+
+[node name="EffectsComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "fire_particle", "poisoned_particle")]
+script = ExtResource("6_sauy3")
+health_component = NodePath("../HealthComponent")
+fire_particle = NodePath("../FireParticle")
+poisoned_particle = NodePath("../PoisonParticle")
+
+[node name="PoisonParticle" parent="." instance=ExtResource("7_hejqi")]
+scale = Vector2(3.0625, 3.0625)
+
+[node name="HitFlashAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2nsow")
+}
+
+[node name="HitflashComponent" type="Node2D" parent="." node_paths=PackedStringArray("health_component", "hitflash_animation")]
+script = ExtResource("9_10jeg")
+health_component = NodePath("../HealthComponent")
+hitflash_animation = NodePath("../HitFlashAnimationPlayer")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
