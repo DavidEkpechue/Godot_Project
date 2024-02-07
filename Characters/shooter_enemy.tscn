@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://cyxo5vxpg6uqi"]
+
+[ext_resource type="Script" path="res://ShooterEnemy.gd" id="1_5ck4v"]
+[ext_resource type="Texture2D" uid="uid://chmmlxfe38x0b" path="res://Assets/Shapes/Dodecagon.png" id="2_tfgch"]
+[ext_resource type="Script" path="res://Scripts/fire_component.gd" id="3_r7g7l"]
+[ext_resource type="PackedScene" uid="uid://ca4bmds15bh1f" path="res://Assets/Particles/shooting_particles.tscn" id="4_y83iu"]
+[ext_resource type="Script" path="res://Scripts/HealthComponent.gd" id="5_vddno"]
+[ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="6_r2los"]
+[ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="7_55fqn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0qm61"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jdk84"]
+radius = 557.359
+
+[node name="ShooterEnemy" type="CharacterBody2D"]
+script = ExtResource("1_5ck4v")
+metadata/_edit_lock_ = true
+
+[node name="Dodecagon" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_tfgch")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0qm61")
+metadata/_edit_lock_ = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(45, 0)
+
+[node name="FiringComponent" type="Node2D" parent="." node_paths=PackedStringArray("spawnpoint", "particles")]
+script = ExtResource("3_r7g7l")
+spawnpoint = NodePath("../Marker2D")
+particles = NodePath("../ShootingParticles")
+
+[node name="ShootingParticles" parent="." instance=ExtResource("4_y83iu")]
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
+shape = SubResource("CircleShape2D_jdk84")
+metadata/_edit_lock_ = true
+
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("sprite", "hitbox_shape", "damage_numbers_origin", "death_particles")]
+script = ExtResource("5_vddno")
+sprite = NodePath("../Dodecagon")
+hitbox_shape = NodePath("../CollisionShape2D")
+damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+death_particles = NodePath("../DeathParticles")
+health = 30.0
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+script = ExtResource("6_r2los")
+
+[node name="DeathParticles" parent="." instance=ExtResource("7_55fqn")]
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

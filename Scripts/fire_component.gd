@@ -3,7 +3,6 @@ class_name FiringComponent
 
 var projectile_scene: PackedScene = load("res://Projectiles/base_projectile.tscn")
 @export var spawnpoint: Marker2D
-@export var damage: float
 @export var particles: GPUParticles2D
 
 

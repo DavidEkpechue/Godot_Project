@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bl4s5mxb44nqo"]
+[gd_scene load_steps=21 format=3 uid="uid://bl4s5mxb44nqo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_1eto2"]
 [ext_resource type="Shader" uid="uid://ihgethprt4kt" path="res://Assets/Shaders/PlayerHitFlash.tres" id="1_ltgjy"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="15_qbqtf"]
 [ext_resource type="Script" path="res://DashComponent.gd" id="16_5ydb5"]
 [ext_resource type="PackedScene" uid="uid://dumy24kjo3emi" path="res://Assets/Particles/dashing_particles.tscn" id="17_7weab"]
+[ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="18_4xee2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5ay"]
 shader = ExtResource("1_ltgjy")
@@ -38,6 +39,7 @@ health_component = NodePath("HealthComponent")
 shoot_point = NodePath("ShootPoint")
 fire_component = NodePath("FireComponent")
 dash_component = NodePath("DashComponent")
+base_damage = 500.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 rotation = 1.5708
@@ -69,9 +71,12 @@ scale = Vector2(3.0625, 3.0625)
 position = Vector2(-31, 1)
 rotation = -3.13607
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_origin") instance=ExtResource("3_unae2")]
-MAX_HEALTH = 4000.0
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("sprite", "hitbox_polygon", "damage_numbers_origin", "death_particles") instance=ExtResource("3_unae2")]
+MAX_HEALTH = 1000.0
+sprite = NodePath("../Triangle")
+hitbox_polygon = NodePath("../CollisionPolygon2D")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+death_particles = NodePath("../DeathParticles")
 metadata/_edit_lock_ = true
 
 [node name="FireComponent" parent="." node_paths=PackedStringArray("spawnpoint", "particles") instance=ExtResource("4_gyshn")]
@@ -103,8 +108,6 @@ dash_effect = NodePath("../DashingParticles")
 [node name="CooldownComponent" parent="." instance=ExtResource("5_ycd1b")]
 wait_time = 0.5
 
-[node name="Timer" type="Timer" parent="."]
-
 [node name="HitFlashAnimationPlayer" parent="." instance=ExtResource("10_1hy3r")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -121,6 +124,10 @@ offset_right = 0.391998
 offset_bottom = -0.223999
 value = 100.0
 health_component = NodePath("../../HealthComponent")
+
+[node name="DeathParticles" parent="." instance=ExtResource("18_4xee2")]
+position = Vector2(-1, 1)
+rotation = -3.13607
 
 [connection signal="dash_cooldown_complete" from="DashComponent" to="." method="_on_dash_cooldown_complete"]
 [connection signal="timeout" from="CooldownComponent" to="." method="_on_cooldown_component_timeout"]

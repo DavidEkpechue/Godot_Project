@@ -41,10 +41,11 @@ func on_fire(intensity:float, duration:int, seconds_between_tics):
 		start_particle_emission(fire_particle)
 
 	for i in range(duration):
-		health_component.damage(intensity)
-		print("fire damage with intensity ", intensity, "at second ", i + 1, "/", duration)
-		# Yield execution before continuing the loop
-		await get_tree().create_timer(seconds_between_tics).timeout
+		if health_component.is_active:
+			health_component.damage(intensity)
+			print("fire damage with intensity ", intensity, "at second ", i + 1, "/", duration)
+			# Yield execution before continuing the loop
+			await get_tree().create_timer(seconds_between_tics).timeout
 
 	active_fire_effects_count -= 1 # Decrement the counter when the effect ends
 	if active_fire_effects_count == 0: # Only stop particles if this was the last effect
@@ -60,10 +61,11 @@ func poisoned(intensity: float, duration: int, seconds_between_tics: float):
 		start_particle_emission(poisoned_particle)
 
 	for i in range(duration):
-		health_component.damage(intensity)
-		print("Poison damage with intensity ", intensity, "at second ", i + 1, "/", duration)
-		# Yield execution before continuing the loop
-		await get_tree().create_timer(seconds_between_tics).timeout
+		if health_component.is_active:
+			health_component.damage(intensity)
+			print("Poison damage with intensity ", intensity, "at second ", i + 1, "/", duration)
+			# Yield execution before continuing the loop
+			await get_tree().create_timer(seconds_between_tics).timeout
 
 	active_poison_effects_count -= 1 # Decrement the counter when the effect ends
 	if active_poison_effects_count == 0: # Only stop particles if this was the last effect

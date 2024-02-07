@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6x0u5svbsfiw"]
+[gd_scene load_steps=10 format=3 uid="uid://b6x0u5svbsfiw"]
 
 [ext_resource type="Script" path="res://Scripts/level.gd" id="1_ayeaj"]
 [ext_resource type="PackedScene" uid="uid://bl4s5mxb44nqo" path="res://Characters/player.tscn" id="2_vf8wj"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://di1ocmk06jb2o" path="res://Characters/tower.tscn" id="3_ivmim"]
 [ext_resource type="PackedScene" uid="uid://bn00lvla0a3eo" path="res://item_test.tscn" id="4_exoni"]
 [ext_resource type="PackedScene" uid="uid://dhghba2p4eofv" path="res://Characters/enemy_1.tscn" id="5_ttqwd"]
+[ext_resource type="PackedScene" uid="uid://cyxo5vxpg6uqi" path="res://Characters/shooter_enemy.tscn" id="7_2edb6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5ay"]
 shader = ExtResource("3_bch4h")
@@ -51,3 +52,24 @@ environment = SubResource("Environment_kfh5q")
 position = Vector2(352, 90)
 
 [node name="Enemy1" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(-251, 236)
+
+[node name="Enemy2" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(284, -76)
+
+[node name="Enemy3" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(102, -113)
+
+[node name="Enemy4" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(-175, -97)
+
+[node name="Enemy5" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(341, 348)
+
+[node name="Enemy6" parent="." instance=ExtResource("5_ttqwd")]
+position = Vector2(565, -100)
+
+[node name="ShooterEnemy" parent="." instance=ExtResource("7_2edb6")]
+position = Vector2(-297, 336)
+
+[node name="Drops" type="Node2D" parent="."]

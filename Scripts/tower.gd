@@ -3,7 +3,7 @@ extends StaticBody2D
 @export var can_shoot: bool = true
 @export var shoot_direction: Vector2 = Vector2.RIGHT
 @export var damage_multiplier: float
-@export var base_damage1: float
+@export var base_damage: float
 
 var fire_component
 var effect_array
@@ -30,10 +30,10 @@ func change_direction(direction: Vector2):
 	shoot_direction = direction
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if can_shoot:
 		set_effect()
-		fire_component.fire_projectile(shoot_direction, base_damage1, effect_array)
+		fire_component.fire_projectile(shoot_direction, base_damage, effect_array)
 		$CoolDownComponent.start()
 		can_shoot = false
 

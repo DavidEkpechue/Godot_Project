@@ -19,7 +19,7 @@ func _on_body_entered(body):
 	if effects_component and effects_component.has_method("apply_effect"):
 			effects_component.apply_effect(effect_array)  
 			
-	if health_component and health_component.has_method("damage"):
+	if health_component and health_component.has_method("damage") and health_component.is_active:
 		health_component.damage(damage)  
 	
 	queue_free()

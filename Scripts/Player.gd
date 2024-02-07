@@ -6,11 +6,11 @@ extends CharacterBody2D
 @export var dash_component: DashComponent  # Add this line
 
 @export var health: float
-@export var speed: float = 400
+@export var speed: float = 300
 @export var damage_multiplier: float = 1
-@export var base_damage: float = 5
-@export var exp: float
-@export var projectiles_per_shot: int = 3
+@export var base_damage: float = 50
+@export var xp: float
+@export var projectiles_per_shot: int = 1
 @export var power_ups: Array
 
 var can_fire: bool = true
@@ -54,13 +54,13 @@ func handle_dash():
 		dash_component.dash(player_direction)  # Use the current player direction for dashing
 		can_dash = false  # Disable dashing until cooldown finishes
 
-func _process(delta):
+func _process(_delta):
 	# Process input for direction, main action, and dash
 	handle_direction()
 	handle_main_action()
 	handle_dash()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if dash_component.is_dashing:
 		# When dashing, use the dash velocity from the DashComponent
 		velocity = dash_component.dash_velocity

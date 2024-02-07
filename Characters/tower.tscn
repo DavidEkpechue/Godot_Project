@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://di1ocmk06jb2o"]
+[gd_scene load_steps=19 format=3 uid="uid://di1ocmk06jb2o"]
 
 [ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
 [ext_resource type="Script" path="res://Scripts/tower.gd" id="1_muixs"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_wkq3t"]
 [ext_resource type="Script" path="res://Components/damage_numbers_origin.gd" id="11_ma8yo"]
 [ext_resource type="PackedScene" uid="uid://ca4bmds15bh1f" path="res://Assets/Particles/shooting_particles.tscn" id="12_jxyk4"]
+[ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="13_i3cew"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fgf4g"]
 shader = ExtResource("2_hlvnt")
@@ -61,6 +62,7 @@ _data = {
 [node name="Tower" type="StaticBody2D"]
 position = Vector2(65, 60)
 script = ExtResource("1_muixs")
+base_damage = 10.0
 
 [node name="Square" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_fgf4g")
@@ -81,10 +83,13 @@ particles = NodePath("../ShootingParticles")
 position = Vector2(47, 0)
 metadata/_edit_lock_ = true
 
-[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_numbers_origin")]
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("sprite", "hitbox_shape", "damage_numbers_origin", "death_particles")]
 script = ExtResource("3_4oaud")
 MAX_HEALTH = 200.0
+sprite = NodePath("../Square")
+hitbox_shape = NodePath("../CollisionShape2D")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+death_particles = NodePath("../DeathParticles")
 metadata/_edit_lock_ = true
 
 [node name="CoolDownComponent" parent="." instance=ExtResource("5_xoheo")]
@@ -120,5 +125,7 @@ metadata/_edit_lock_ = true
 
 [node name="ShootingParticles" parent="." instance=ExtResource("12_jxyk4")]
 metadata/_edit_lock_ = true
+
+[node name="DeathParticles" parent="." instance=ExtResource("13_i3cew")]
 
 [connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]

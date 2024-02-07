@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dhghba2p4eofv"]
+[gd_scene load_steps=21 format=3 uid="uid://dhghba2p4eofv"]
 
 [ext_resource type="Script" path="res://Characters/enemy_1.gd" id="1_m44q7"]
 [ext_resource type="Texture2D" uid="uid://ba0up5svu7fbh" path="res://Assets/Shapes/Circle.png" id="1_tk8w7"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/EffectsComponent.gd" id="6_sauy3"]
 [ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="7_hejqi"]
 [ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_10jeg"]
+[ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="10_5irko"]
+[ext_resource type="Script" path="res://AttackComponent.gd" id="11_xwofq"]
+[ext_resource type="PackedScene" uid="uid://bn00lvla0a3eo" path="res://item_test.tscn" id="12_awlgf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5ay"]
 shader = ExtResource("1_vni1t")
@@ -19,27 +22,13 @@ shader_parameter/Tint = Color(1, 0, 0, 1)
 radius = 23.7697
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u5ooc"]
+resource_local_to_scene = true
 shader = ExtResource("1_vni1t")
 shader_parameter/Enabled = false
 shader_parameter/Tint = Color(1, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rglut"]
 radius = 557.359
-
-[sub_resource type="Animation" id="Animation_j7wgk"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Circle:material:shader_parameter/Enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_6afas"]
 resource_name = "Hitflash"
@@ -57,11 +46,29 @@ tracks/0/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_j7wgk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Circle:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2nsow"]
 _data = {
 "HitFlash": SubResource("Animation_6afas"),
 "RESET": SubResource("Animation_j7wgk")
 }
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lyw54"]
+radius = 25.7099
 
 [node name="Enemy1" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_8d5ay")
@@ -89,9 +96,13 @@ visible = false
 shape = SubResource("CircleShape2D_rglut")
 metadata/_edit_lock_ = true
 
-[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_numbers_origin")]
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("sprite", "hitbox_shape", "damage_numbers_origin", "death_particles")]
 script = ExtResource("3_n060g")
+sprite = NodePath("../Circle")
+hitbox_shape = NodePath("../CollisionShape2D")
+death_drop_scene = ExtResource("12_awlgf")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
+death_particles = NodePath("../DeathParticles")
 
 [node name="DamageNumbersOrigin" type="Node2D" parent="."]
 script = ExtResource("4_jsmv8")
@@ -114,6 +125,21 @@ libraries = {
 script = ExtResource("9_10jeg")
 health_component = NodePath("../HealthComponent")
 hitflash_animation = NodePath("../HitFlashAnimationPlayer")
+
+[node name="DeathParticles" parent="." instance=ExtResource("10_5irko")]
+
+[node name="AttackComponent" type="Node2D" parent="." node_paths=PackedStringArray("attack_area")]
+script = ExtResource("11_xwofq")
+attack_area = NodePath("../AttackArea")
+damage = 10.0
+cooldown = 1.0
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_lyw54")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
