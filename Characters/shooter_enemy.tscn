@@ -14,9 +14,9 @@ radius = 30.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_jdk84"]
 radius = 557.359
 
-[node name="ShooterEnemy" type="CharacterBody2D"]
+[node name="ShooterEnemy" type="CharacterBody2D" node_paths=PackedStringArray("firing_component")]
 script = ExtResource("1_5ck4v")
-metadata/_edit_lock_ = true
+firing_component = NodePath("FiringComponent")
 
 [node name="Dodecagon" type="Sprite2D" parent="."]
 scale = Vector2(0.125, 0.125)
@@ -46,10 +46,11 @@ visible = false
 shape = SubResource("CircleShape2D_jdk84")
 metadata/_edit_lock_ = true
 
-[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("sprite", "hitbox_shape", "damage_numbers_origin", "death_particles")]
+[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("sprite", "hitbox_shape", "firing_component", "damage_numbers_origin", "death_particles")]
 script = ExtResource("5_vddno")
 sprite = NodePath("../Dodecagon")
 hitbox_shape = NodePath("../CollisionShape2D")
+firing_component = NodePath("../FiringComponent")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
 death_particles = NodePath("../DeathParticles")
 health = 30.0

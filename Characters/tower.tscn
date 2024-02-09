@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://di1ocmk06jb2o"]
+[gd_scene load_steps=20 format=3 uid="uid://di1ocmk06jb2o"]
 
 [ext_resource type="Texture2D" uid="uid://c153834dtkoqh" path="res://Assets/Shapes/Square.png" id="1_4vlka"]
 [ext_resource type="Script" path="res://Scripts/tower.gd" id="1_muixs"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="13_i3cew"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fgf4g"]
+resource_local_to_scene = true
 shader = ExtResource("2_hlvnt")
 shader_parameter/Enabled = false
 shader_parameter/Tint = Color(1, 0, 0, 1)
@@ -59,10 +60,14 @@ _data = {
 "RESET": SubResource("Animation_1gbf1")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_g8qb7"]
+radius = 882.069
+
 [node name="Tower" type="StaticBody2D"]
 position = Vector2(65, 60)
 script = ExtResource("1_muixs")
 base_damage = 10.0
+shooting_cooldown = 1.5
 
 [node name="Square" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_fgf4g")
@@ -128,4 +133,14 @@ metadata/_edit_lock_ = true
 
 [node name="DeathParticles" parent="." instance=ExtResource("13_i3cew")]
 
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_g8qb7")
+
 [connection signal="timeout" from="CoolDownComponent" to="." method="_on_cool_down_component_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

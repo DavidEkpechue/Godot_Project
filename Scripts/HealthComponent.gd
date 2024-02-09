@@ -6,6 +6,7 @@ class_name HealthComponent
 @export var hitbox_polygon: CollisionPolygon2D
 @export var hitbox_shape: CollisionShape2D
 @export var attack_component: AttackComponent
+@export var firing_component: FiringComponent
 @export var death_drop_scene: PackedScene  
 @export var damage_numbers_origin: DamageNumbersOrigin
 @export var death_particles: GPUParticles2D
@@ -43,6 +44,8 @@ func death_effect():
 	sprite.visible = false
 	if attack_component:
 		attack_component.queue_free()
+	if firing_component:
+		firing_component.queue_free()
 	if hitbox_polygon:
 		hitbox_polygon.queue_free()
 	else:

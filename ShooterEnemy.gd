@@ -15,7 +15,7 @@ var effect_intensity: float = 1.0
 var effect_duration: int = 5
 var effect_seconds_between_tics: float = 1.0
 
-@onready var firing_component: FiringComponent = $FiringComponent
+@export var firing_component: FiringComponent
 
 func set_effect():
 	# Initialize the effect_array with poison effect details
@@ -56,6 +56,8 @@ func shoot_at_player():
 	can_shoot = false
 	set_effect()
 	var shoot_direction = (player.global_position - global_position).normalized()
+	if firing_component == null:
+		return
 	firing_component.fire_projectile(shoot_direction, damage, effect_array)
 	start_shooting_cooldown()
 

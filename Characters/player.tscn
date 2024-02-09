@@ -72,7 +72,6 @@ position = Vector2(-31, 1)
 rotation = -3.13607
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("sprite", "hitbox_polygon", "damage_numbers_origin", "death_particles") instance=ExtResource("3_unae2")]
-MAX_HEALTH = 1000.0
 sprite = NodePath("../Triangle")
 hitbox_polygon = NodePath("../CollisionPolygon2D")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
