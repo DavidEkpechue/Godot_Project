@@ -72,6 +72,7 @@ position = Vector2(-31, 1)
 rotation = -3.13607
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("sprite", "hitbox_polygon", "damage_numbers_origin", "death_particles") instance=ExtResource("3_unae2")]
+MAX_HEALTH = 1000.0
 sprite = NodePath("../Triangle")
 hitbox_polygon = NodePath("../CollisionPolygon2D")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")
@@ -100,7 +101,7 @@ hitflash_animation = NodePath("../HitFlashAnimationPlayer")
 
 [node name="DashComponent" type="Node" parent="." node_paths=PackedStringArray("dash_effect")]
 script = ExtResource("16_5ydb5")
-dash_duration = 0.2
+dash_duration = 0.3
 dash_cooldown = 0.1
 dash_effect = NodePath("../DashingParticles")
 
