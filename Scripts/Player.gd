@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var health_component: HealthComponent
 @export var shoot_point: Marker2D
 @export var fire_component: FiringComponent  # Reference to the FiringComponent
-@export var dash_component: DashComponent  # Add this line
+@export var dash_component: DashComponent  
 
 @export var health: float
 @export var speed: float = 300
@@ -31,7 +31,6 @@ func _ready():
 	# Set the initial color of the triangle and get the components
 	$Triangle.modulate = Color.SKY_BLUE
 	fire_component = $FireComponent
-	# dash_component.connect("dash_cooldown_complete", Callable(self, "_on_dash_cooldown_complete"))
 	health_component.damage(0)
 
 func handle_direction():
@@ -78,3 +77,4 @@ func _on_cooldown_component_timeout():
 
 func _on_dash_cooldown_complete():
 	can_dash = true  # Re-enable dashing after cooldown
+ 

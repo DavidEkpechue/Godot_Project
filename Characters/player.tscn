@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c3eqqyoy4rwg2" path="res://Components/damage_numbers_origin.tscn" id="13_nnxjp"]
 [ext_resource type="PackedScene" uid="uid://ca4bmds15bh1f" path="res://Assets/Particles/shooting_particles.tscn" id="14_wgyld"]
 [ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="15_qbqtf"]
-[ext_resource type="Script" path="res://DashComponent.gd" id="16_5ydb5"]
+[ext_resource type="Script" path="res://Scripts/DashComponent.gd" id="16_5ydb5"]
 [ext_resource type="PackedScene" uid="uid://dumy24kjo3emi" path="res://Assets/Particles/dashing_particles.tscn" id="17_7weab"]
 [ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="18_4xee2"]
 
@@ -72,7 +72,6 @@ position = Vector2(-31, 1)
 rotation = -3.13607
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("sprite", "hitbox_polygon", "damage_numbers_origin", "death_particles") instance=ExtResource("3_unae2")]
-MAX_HEALTH = 1000.0
 sprite = NodePath("../Triangle")
 hitbox_polygon = NodePath("../CollisionPolygon2D")
 damage_numbers_origin = NodePath("../DamageNumbersOrigin")

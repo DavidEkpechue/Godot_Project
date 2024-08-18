@@ -4,7 +4,7 @@ class_name StatsComponent
 @export var health_component: HealthComponent
 
 var coins: int = 0
-var health
+@export var health: int
 var experience
 
 func _ready():
@@ -12,6 +12,9 @@ func _ready():
 		health_component.connect("health_changed", Callable(self, "update_health"))
 	
 
+func add_exp(amount):
+	experience += amount
+	print(experience)
 
 func add_coins(amount):
 	coins += amount

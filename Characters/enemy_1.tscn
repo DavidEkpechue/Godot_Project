@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dhghba2p4eofv"]
 
-[ext_resource type="Script" path="res://Characters/enemy_1.gd" id="1_m44q7"]
+[ext_resource type="Script" path="res://Scripts/enemy_1.gd" id="1_m44q7"]
 [ext_resource type="Texture2D" uid="uid://ba0up5svu7fbh" path="res://Assets/Shapes/Circle.png" id="1_tk8w7"]
 [ext_resource type="Shader" uid="uid://ihgethprt4kt" path="res://Assets/Shaders/PlayerHitFlash.tres" id="1_vni1t"]
 [ext_resource type="PackedScene" uid="uid://q8d02kfqh57c" path="res://Assets/Particles/FireParticle.tscn" id="2_urps3"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://plyxj56uecxt" path="res://Assets/Particles/PoisonParticle.tscn" id="7_hejqi"]
 [ext_resource type="Script" path="res://Scripts/hitflash_component.gd" id="9_10jeg"]
 [ext_resource type="PackedScene" uid="uid://c75wwgladsntu" path="res://Assets/Particles/death_particles.tscn" id="10_5irko"]
-[ext_resource type="Script" path="res://AttackComponent.gd" id="11_xwofq"]
+[ext_resource type="Script" path="res://Scripts/AttackComponent.gd" id="11_xwofq"]
 [ext_resource type="PackedScene" uid="uid://bn00lvla0a3eo" path="res://item_test.tscn" id="12_awlgf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5ay"]
